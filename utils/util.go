@@ -2,7 +2,9 @@ package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"time"
 )
 
 //Message envia mensaje
@@ -28,4 +30,25 @@ func RespondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
 	w.Write(response)
+}
+
+//GetFechaL retorna fecha en formato largo|
+func GetFechaL() string {
+	t := time.Now()
+	fecha := fmt.Sprintf("%d-%02d-%02dT%02d:%02d:%02d",
+		t.Year(), t.Month(), t.Day(),
+		t.Hour(), t.Minute(), t.Second())
+
+	fmt.Println("La fecha larga actual es =>", fecha)
+	return fecha
+}
+
+//GetFechaC retorna fecha en formato largo|
+func GetFechaC() string {
+	t := time.Now()
+	fecha := fmt.Sprintf("%d-%02d-%02d",
+		t.Year(), t.Month(), t.Day())
+
+	fmt.Println("La fecha corta actual es =>", fecha)
+	return fecha
 }

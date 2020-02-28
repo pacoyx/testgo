@@ -13,17 +13,13 @@ import (
 
 var clientdb *sql.DB
 
-//GetClienteAwsMySQL devuelve cadena test
-func GetClienteAwsMySQL() string {
-	return "desde paquete data"
-}
-
 //GetClientDBMySQLaws xxxx
 func GetClientDBMySQLaws() *sql.DB {
+	initConexion()
 	return clientdb
 }
 
-func init() {
+func initConexion() {
 
 	err := godotenv.Load()
 	if err != nil {
@@ -43,5 +39,5 @@ func init() {
 	fmt.Println("conectado a mysql aws")
 
 	clientdb = db
-	//defer db.Close()
+
 }
