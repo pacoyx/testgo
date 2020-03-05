@@ -4,14 +4,29 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"github.com/pacoyx/go-cron-test/controller"
 )
 
+var puertoInicio string
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	puertoInicio = os.Getenv("PUERTO_INI")
+}
+
 func main() {
 	router := mux.NewRouter()
+
 	fmt.Println("Starting the application...")
+
 	router.HandleFunc("/authenticate", controller.CreateTokenEndpoint).Methods("POST")
 	router.HandleFunc("/protected", controller.ProtectedEndpoint).Methods("GET")
 	//router.HandleFunc("/test", controller.ValidateMiddleware(TestEndpoint)).Methods("GET")
@@ -25,6 +40,6 @@ func main() {
 	router.HandleFunc("/TestMongodbInsert", controller.TestCnxMongodbInsertController).Methods("POST")
 	router.HandleFunc("/TestMongodbSelect", controller.TestCnxMongodbSelectController).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":"+puertoInicio, router))
 
 }
